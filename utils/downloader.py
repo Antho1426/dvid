@@ -204,7 +204,7 @@ def youtube_downloader(number_of_unrecognized_urls, url, textFileAsInput, driver
 
 
 ## Instagram downloader
-def instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driver):
+def instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driver, project_path):
 
     # 1) Checking the availability of the Instagram post
     print("1) Checking the availability of the Instagram post")
@@ -220,6 +220,11 @@ def instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driv
             print(colored('Warning!\n', 'cyan'),
                   'Web element "Accept" button not found. Error message: ', e)
 
+        # Clicking on "Log In"
+        print(' Clicking on "Log In"')
+        python_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div/div/div/div[3]/div[1]/a')))
+        python_button.click()
+
         # Entering Entering personal Instagram credentials
         print(' Entering personal Instagram credentials')
         instagram_credentials_text_file = open(project_path + '/utils/instagram_credentials.txt')
@@ -232,11 +237,18 @@ def instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driv
         password_field.send_keys(password)
 
         # Clicking on the "Log In" button
+        print(' Clicking on the "Log In" button')
         log_in_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div')))
         log_in_button.click()
 
         # Clicking on the "Not Now" button
+        print(' Clicking on the "Not Now" button')
         not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="react-root"]/section/main/div/div/div/div/button')))
+        not_now_button.click()
+
+        # Clicking on the second "Not Now" button
+        print(' Clicking on the second "Not Now" button')
+        not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[4]/div/div/div/div[3]/button[2]')))
         not_now_button.click()
 
         # Setting the utils.config.firstTimeLoggedInInsta to False
@@ -364,7 +376,7 @@ def twitter_downloader(url):
 
 
 ## Facebook downloader
-def facebook_downloader_1(url, driver):
+def facebook_downloader_1(url, driver, project_path):
 
     try:
         try:

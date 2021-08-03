@@ -7,7 +7,7 @@
 
 
 #==================
-debugModeOn = False
+debugModeOn = True
 #==================
 
 
@@ -216,7 +216,7 @@ if number_of_lines > 0:
             # Instagram case:
             elif ('instagram' in url):
                 try:
-                    number_of_unrecognized_urls = instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driver)
+                    number_of_unrecognized_urls = instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driver, project_path)
                 except Exception as e:
                     number_of_unrecognized_urls += 1
                     log_error(e, number_of_unrecognized_urls, url, textFileAsInput)
@@ -234,7 +234,7 @@ if number_of_lines > 0:
             # Facebook case:
             elif ('facebook' in url):
                 try:
-                    facebook_downloader_1(url, driver)
+                    facebook_downloader_1(url, driver, project_path)
                 except Exception as e:
                     number_of_unrecognized_urls += 1
                     log_error(e, number_of_unrecognized_urls, url, textFileAsInput)

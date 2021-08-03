@@ -48,7 +48,9 @@ Important points to notice:
 - The corresponding URL of each video is copied to the "Comments" section of the
   video file meta information.
 
-<img src="dvid.gif" alt="dvid-gif" style="width: 640px;"/>
+<p align="center">
+	<img src="dvid.gif" alt="dvid-gif" style="width: 640px;"/>
+</p>
 
 ## 2. Getting started
 

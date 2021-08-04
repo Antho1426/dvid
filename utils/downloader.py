@@ -208,62 +208,73 @@ def instagram_downloader(number_of_unrecognized_urls, url, textFileAsInput, driv
 
     # 1) Checking the availability of the Instagram post
     print("1) Checking the availability of the Instagram post")
-    driver.get(url)
 
+    #---
+    driver.get(url)
+    
     if utils.config.firstTimeLoggedInInsta:
         # Clicking on "Accept" to accept cookies from Instagram on the web driver
-        print(' Clicking on "Accept" to accept cookies from Instagram')
+        print(' Clicking on "Accept All" to accept cookies from Instagram')
         try:
-            python_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div/div[2]/button[1]')))
-            python_button.click()
-        except Exception as e:
-            print(colored('Warning!\n', 'cyan'),
-                  'Web element "Accept" button not found. Error message: ', e)
+            #python_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div/div[2]/button[1]')))
+            #python_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[4]/div/div/button[1]')))
+            buttons_list = driver.find_elements_by_tag_name('button')
+            for button in buttons_list:
+                if 'Accept' in button.text:
+                    button.click()
+                    break
 
+        except Exception as e:
+            #print(colored('Warning!\n', 'cyan'), 'Web element "Accept" button not found. Error message: ', e)
+            print(colored('Warning!\n', 'cyan'), 'Web element "Accept All" button not found. Error message: ', e)
+    
         # Clicking on "Log In"
         print(' Clicking on "Log In"')
         python_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div/div/div/div[3]/div[1]/a')))
         python_button.click()
-
+    
         # Entering Entering personal Instagram credentials
         print(' Entering personal Instagram credentials')
         instagram_credentials_text_file = open(project_path + '/utils/instagram_credentials.txt')
         lines = instagram_credentials_text_file.readlines()
         username = lines[0].replace('\n', '')
         password = lines[1]
+        instagram_credentials_text_file.close()
         username_field = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[1]/div/label/input')))
         username_field.send_keys(username)
         password_field = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[2]/div/label/input')))
         password_field.send_keys(password)
-
+    
         # Clicking on the "Log In" button
         print(' Clicking on the "Log In" button')
         log_in_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div')))
         log_in_button.click()
-
+    
         # Clicking on the "Not Now" button
         print(' Clicking on the "Not Now" button')
         not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="react-root"]/section/main/div/div/div/div/button')))
         not_now_button.click()
-
+    
         # Clicking on the second "Not Now" button
         print(' Clicking on the second "Not Now" button')
-        not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[4]/div/div/div/div[3]/button[2]')))
+        #not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[4]/div/div/div/div[3]/button[2]')))
+        not_now_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div/div/div/div[3]/button[2]')))
         not_now_button.click()
-
+    
         # Setting the utils.config.firstTimeLoggedInInsta to False
         utils.config.firstTimeLoggedInInsta = False
-
+    
     # Checking if error message at the top of the web page
     print(' Checking if error message at the top of the web page')
-    if "Sorry, this page isn't available." in driver.page_source: # if the Instagram post is not available anymore
+    if "Sorry" in driver.page_source: # if the Instagram post is not available anymore
         number_of_unrecognized_urls += 1
         # Printing the error to the console
         print("\n\n⚠️", colored("Issue with URL n°{0}".format(number_of_unrecognized_urls).strip(), 'red') + ":\n" + url + "\nThis Instagram post is not available anymore!")
         if textFileAsInput:
             # Adding this URL to the log text file
             write_in_log_text_file("\n\n⚠️ Issue with URL n°{0}:\n".format(number_of_unrecognized_urls) + url + "\nThis Instagram post is not available anymore!")
-
+    #---
+    
     else: # if the Instagram post still exists
         print(' ✅ Instagram post available')
 
@@ -428,6 +439,7 @@ def facebook_downloader_1(url, driver, project_path):
             lines = facebook_credentials_text_file.readlines()
             email_address = lines[0].replace('\n', '')
             password = lines[1]
+            facebook_credentials_text_file.close()
             mobile_number_or_email_address_field = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//*[@id="m_login_email"]')))
             mobile_number_or_email_address_field.send_keys(email_address)
             password_field = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//*[@id="m_login_password"]')))
@@ -927,7 +939,7 @@ def pinterest_downloader(url, driver):
         else:
             translation_dict[reserved_characters_list[i]] = ''
     driver.get(url)
-    video_title_encoded = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="desktopWrapper"]/div[2]/div/div/div[2]/div[1]/div[2]/div[2]/div[2]/div/div[2]/div/h1')))
+    video_title_encoded = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="desktopWrapper"]/div[2]/div/div/div[2]/div[1]/div[2]/div[2]/div[2]/div/div[3]/div/h1')))
     video_title = video_title_encoded.text
     video_title_translated = video_title.translate(str.maketrans(translation_dict))
     print(' Video title: "{0}"'.format(video_title_translated))
@@ -947,7 +959,8 @@ def pinterest_downloader(url, driver):
 
     # 5) Getting source link from video tag
     print('5) Getting source link from video tag')
-    source_link = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH,'//*[@id="showdata"]/div[5]/table/tbody/tr[1]/td[1]/a'))).get_attribute("href")
+    #source_link = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH,'//*[@id="showdata"]/div[5]/table/tbody/tr[1]/td[1]/a'))).get_attribute("href")
+    source_link = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH,'//*[@id="showdata"]/div[1]/video/source'))).get_attribute("src")
 
     # 6) Retrieving video using urllib.request
     # (I.e. downloading the Pinterest post)

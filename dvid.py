@@ -201,7 +201,7 @@ if number_of_lines > 0:
         if connected_to_internet():
 
             url = retrieve_url(lines, number_of_lines, i)
-            print('\n --> Current URL: ', url)
+            print('\n\n--> Current URL: ', url)
 
             # ---------------------------------
             # YouTube case:

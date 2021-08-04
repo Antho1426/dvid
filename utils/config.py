@@ -19,6 +19,7 @@ firstTimeLoggedInInsta = True
 DOWNLOAD_DIRECTORY = '/Users/anthony/Downloads' # name of the folder in which we will put the downloaded video files (this can be adjusted by the user)
 DEFAULT_DOWNLOAD_DIRECTORY = str(Path.home() / "Downloads")
 GOOGLE = 'https://www.google.com/'
+TEAM_STAMA = 'https://www.teamstama.com/'
 YTMP3_URL = 'https://ytmp3.cc/'
 SAVE_AS_URL = 'https://saveas.co'
 GET_FVID_URL = 'https://www.getfvid.com'

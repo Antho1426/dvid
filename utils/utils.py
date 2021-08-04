@@ -22,7 +22,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 # Importing the constants defined in config.py
 from utils.config import (
     DOWNLOAD_DIRECTORY,
-    GOOGLE
+    GOOGLE,
+    TEAM_STAMA
 )
 
 
@@ -149,7 +150,7 @@ def connected_to_internet():
     Cf.: https://stackoverflow.com/questions/3764291/checking-network-connection
     """
     try:
-        test_link = 'http://216.58.192.142' # IP addresses for google.com
+        test_link = 'http://google.com'
         req = Request(test_link, headers={'User-Agent': 'XYZ/3.0'})
         urlopen(req, timeout=20).read()
         return True
@@ -271,7 +272,7 @@ def get_latest_webdriver():
     # Positioning the web driver window on the right-hand side of the screen
     driver.set_window_position(window_width, 0)
     # Navigating to GOOGLE
-    driver.get(GOOGLE)
+    driver.get(TEAM_STAMA)
 
     return driver
 
